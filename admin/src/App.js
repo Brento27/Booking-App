@@ -1,30 +1,27 @@
-import Home from "./pages/home/Home";
-import Login from "./pages/login/Login";
-import List from "./pages/list/List";
-import Single from "./pages/single/Single";
-import New from "./pages/new/New";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { productInputs, userInputs } from "./formSource";
-import "./style/dark.scss";
-import { useContext } from "react";
-import { DarkModeContext } from "./context/darkModeContext";
-import { AuthContext } from "./context/AuthContext";
-import { hotelColumns, roomColumns, userColumns } from "./datatablesource";
-import NewHotel from "./pages/newHotel/NewHotel";
-import NewRoom from "./pages/newRoom/NewRoom";
+import Home from "./pages/home/Home"
+import Login from "./pages/login/Login"
+import List from "./pages/list/List"
+import Single from "./pages/single/Single"
+import New from "./pages/new/New"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { productInputs, userInputs } from "./formSource"
+import "./style/dark.scss"
+import { useContext } from "react"
+import { DarkModeContext } from "./context/darkModeContext"
+import { AuthContext } from "./context/AuthContext"
 
 function App() {
-  const { darkMode } = useContext(DarkModeContext);
+  const { darkMode } = useContext(DarkModeContext)
 
   const ProtectedRoute = ({ children }) => {
-    const { user } = useContext(AuthContext);
+    const { user } = useContext(AuthContext)
 
     if (!user) {
-      return <Navigate to="/login" />;
+      return <Navigate to="/login" />
     }
 
-    return children;
-  };
+    return children
+  }
 
   return (
     <div className={darkMode ? "app dark" : "app"}>
@@ -40,12 +37,13 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
             <Route path="users">
               <Route
                 index
                 element={
                   <ProtectedRoute>
-                    <List columns={userColumns} />
+                    <List />
                   </ProtectedRoute>
                 }
               />
@@ -66,12 +64,12 @@ function App() {
                 }
               />
             </Route>
-            <Route path="hotels">
+            <Route path="products">
               <Route
                 index
                 element={
                   <ProtectedRoute>
-                    <List columns={hotelColumns} />
+                    <List />
                   </ProtectedRoute>
                 }
               />
@@ -87,33 +85,7 @@ function App() {
                 path="new"
                 element={
                   <ProtectedRoute>
-                    <NewHotel  />
-                  </ProtectedRoute>
-                }
-              />
-            </Route>
-            <Route path="rooms">
-              <Route
-                index
-                element={
-                  <ProtectedRoute>
-                    <List columns={roomColumns} />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path=":productId"
-                element={
-                  <ProtectedRoute>
-                    <Single />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="new"
-                element={
-                  <ProtectedRoute>
-                    <NewRoom  />
+                    <New inputs={productInputs} title="Add New Product" />
                   </ProtectedRoute>
                 }
               />
@@ -122,7 +94,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
